@@ -4,13 +4,16 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
+odmFile = 'data/robotOdm_clear.csv'
+visFile = 'data/robotVis_clear.csv'
+
 odmX = []
 odmY = []
 odmW = []
 odm = []
-pos = []
+vis = []
 
-with open('robotOdm_clear.csv') as csv_file:
+with open(odmFile) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for row in csv_reader:
@@ -28,7 +31,7 @@ with open('robotOdm_clear.csv') as csv_file:
             line_count += 1
     print('Processed {0} lines.'.format(line_count))
 
-with open('robotPos_clear.csv') as csv_file:
+with open(visFile) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for row in csv_reader:
@@ -39,7 +42,7 @@ with open('robotPos_clear.csv') as csv_file:
             w = float(row[3])
             # if w < 0:
             #     w = w+2*math.pi
-            pos.append([float(row[1]), float(row[2]), w])
+            vis.append([float(row[1]), float(row[2]), w])
             line_count += 1
     print('Processed {0} lines.'.format(line_count))
 
@@ -51,7 +54,7 @@ odmVector = np.array([odometry[:, 0] + np.cos(odometry[:, 2]),
                       odometry[:, 1] + np.sin(odometry[:, 2])]).T
 # print(odmVector.shape)
 
-vision = np.array(pos)
+vision = np.array(vis)
 visOrigin = vision[:, 0:2]
 visVector = np.array([vision[:, 0] + np.cos(vision[:, 2]),
                       vision[:, 1] + np.sin(vision[:, 2])]).T
