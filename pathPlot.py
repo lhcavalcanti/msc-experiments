@@ -4,7 +4,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-robotFile = 'data/test_1_05-25/robotInfo_clear.csv'
+robotFile = 'data/test_03_09-07-21/zigzag-pos-01.csv'
 
 odm = []
 vis = []
@@ -18,7 +18,7 @@ with open(robotFile) as csv_file:
             line_count += 1
         else:
             odm.append([float(row[1]), float(row[2]), float(row[3])])
-            vis.append([float(row[4]), float(row[5]), float(row[6])])
+            vis.append([float(row[8]), float(row[9]), float(row[10])])
             line_count += 1
     print('Processed {0} lines.'.format(line_count))
 
