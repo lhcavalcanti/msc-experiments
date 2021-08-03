@@ -4,7 +4,8 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-robotFile = 'data/test_03_09-07-21/zigzag-pos-01.csv'
+version = 'v3-square-fast'
+robotFile = 'data/07-28-21/square-speed-debug-2021-07-28.17:01:17.csv'
 
 odm = []
 vis = []
@@ -38,7 +39,7 @@ visVector = np.array([vision[:, 0] + np.cos(vision[:, 2]),
 # plt.quiver(odmOrigin[:, 0], odmOrigin[:, 1], odmVector[:, 0], odmVector[:, 1])
 
 
-fig, (visPlot, odmPlot) = plt.subplots(2)
+fig1, (visPlot, odmPlot) = plt.subplots(2)
 
 visPlot.plot(visOrigin[:, 0], visOrigin[:, 1], 'r')
 
@@ -61,9 +62,11 @@ bothPlot.set(xlabel='x (m)', ylabel='y (m)',
 bothW.plot(range(len(visOrigin[:, 2])), visOrigin[:, 2], 'r')
 bothW.plot(range(len(odmOrigin[:, 2])), odmOrigin[:, 2], 'g')
 
-bothW.set(xlabel='x (m)', ylabel='y (m)',
+bothW.set(xlabel='step', ylabel='w (rads)',
         title='Vision and Odometry output angles')
 
-
-# fig.savefig("test.png")
-plt.show()
+fig1.set_size_inches((8.5, 11), forward=False)
+fig2.set_size_inches((8.5, 11), forward=False)
+fig1.savefig("vis-odometry-"+version+".png", dpi=500)
+fig2.savefig("vis&odometry-"+version+".png", dpi=500)
+# plt.show()
