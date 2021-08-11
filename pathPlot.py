@@ -4,8 +4,8 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-version = 'v3-square-fast'
-robotFile = 'data/07-28-21/square-speed-debug-2021-07-28.17:01:17.csv'
+version = 'v5-10fps-nrf-square-1,5ms'
+robotFile = 'data/08-06-21/nrf/ok-square-fast+-10fps-debug-2021-08-06.17:02:03.csv'
 
 odm = []
 vis = []
