@@ -4,8 +4,8 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-version = 'v7-emb-zigzag-1fps-1.0m'
-robotFile = 'data/09-16-21/zizag-emb-gyro/logs-16-1.0m-2021-09-16.11:03:39.csv'
+version = 'calibration-test1-S'
+robotFile = 'data/Calibration/10-11-2021/Teste 1/test-1-S-logs-2021-11-09.10:51:47.csv'
 
 odm = []
 vis = []
@@ -63,6 +63,11 @@ fig2, (bothPlot, bothW) = plt.subplots(2)
 
 bothPlot.plot(visOrigin[:, 0], visOrigin[:, 1], 'r')
 bothPlot.plot(odmOrigin[:, 0], odmOrigin[:, 1], 'g')
+# Square
+# bothPlot.plot([-2, 0, 0, -2, -2], [-1, -1, 1, 1, -1], 'black')
+# Line
+bothPlot.plot([-2, 0.2], [-1, -1], 'black')
+
 # bothPlot.set_xlim([-2.8, -1.5])
 # bothPlot.set_ylim([-2, -0.5])
 
@@ -80,7 +85,7 @@ bothW.set(xlabel='step', ylabel='w (rads)',
 
 fig1.set_size_inches((8.5, 11), forward=False)
 fig2.set_size_inches((8.5, 11), forward=False)
-fig1.savefig("vis-odometry-"+version+".png", dpi=500)
+# fig1.savefig("vis-odometry-"+version+".png", dpi=500)
 fig2.savefig("vis&odometry-"+version+".png", dpi=500)
 # plt.show()
 
