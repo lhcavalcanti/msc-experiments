@@ -6,6 +6,7 @@ class Read:
     odometry = []
     vision = []
     motors = []
+    pcktId = []
     compare = []
     robotId = 0
     def __init__(self, path, compare = False):
@@ -20,6 +21,7 @@ class Read:
                     self.robotId = row[0]
                     self.odometry.append([float(row[1]), float(row[2]), float(row[3])])
                     self.vision.append([float(row[8]), float(row[9]), float(row[10])])
+                    self.pcktId.append(int(row[14]))
                     if compare:
                         # GYRO_W, ODM_W, BOTH_W, VIS_W
                         self.compare.append([float(row[4]), float(row[5]), float(row[6]), float(row[7])])
@@ -52,4 +54,9 @@ class Read:
         if self.compare.Length > 0:
             return np.array(self.compare)
 
+    def getPacketIds(self):
+        return np.array(self.pcktId)
+    
+    def getMotors(self):
+        return np.array(self.motors)
 
