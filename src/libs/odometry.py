@@ -11,12 +11,11 @@ class Odometry:
     matrix = iJ1*robotRadius
     tsample = None
     
-    def __init__(self, iJ1: list, robotRadius: float, tsample: int = 15):
+    def __init__(self, matrix: list, robotRadius: float, tsample: int = 15):
         self.tsample = tsample
-        self.iJ1 = np.matrix(iJ1)
+        self.iJ1 = np.reshape(matrix[0:12],(3,4))
         self.robotRadius = robotRadius
         self.matrix = self.iJ1*self.robotRadius
-    
 
     def updateParameters(self, iJ1: list, robotRadius: float):
         self.iJ1 = np.matrix(iJ1)
