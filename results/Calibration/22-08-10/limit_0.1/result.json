@@ -1,0 +1,85 @@
+{
+    "initial_parameters": [
+        0.34641,
+        0.282843,
+        -0.282843,
+        -0.34641,
+        0.414214,
+        -0.414216,
+        -0.414214,
+        0.414214,
+        3.616966,
+        2.556874,
+        2.556874,
+        3.616966,
+        0.02475
+    ],
+    "initial_cost": 0.08379360898677096,
+    "pso_options": {
+        "c1": 0.5,
+        "c2": 0.3,
+        "w": 0.9
+    },
+    "pso_limtit": 0.1,
+    "optimized_parameters": [
+        0.3056409833172562,
+        0.3363018352994833,
+        -0.23404695106190718,
+        -0.3821316419741716,
+        0.40398049419707555,
+        -0.3304322345423135,
+        -0.3274095267706663,
+        0.4201915569973511,
+        3.6534993885137745,
+        2.494656148762584,
+        2.4968297062640725,
+        3.6986832455144674,
+        0.025901348179740186
+    ],
+    "optimized_cost": 0.05460866914346463,
+    "log_odm_test_1_L.csv": {
+        "initial_error": 0.21809537166337814,
+        "simulated_error": 0.07412883507839546,
+        "optimized_error": 0.05100609492618688
+    },
+    "log_odm_test_2_L.csv": {
+        "initial_error": 0.21543689297857455,
+        "simulated_error": 0.06846283222660983,
+        "optimized_error": 0.06623660288520836
+    },
+    "log_odm_test_3_L.csv": {
+        "initial_error": 0.21011727395401406,
+        "simulated_error": 0.08970203729782569,
+        "optimized_error": 0.07496973339871618
+    },
+    "log_odm_test_4_L.csv": {
+        "initial_error": 0.2256118819564353,
+        "simulated_error": 0.08876795994175009,
+        "optimized_error": 0.05340340334844188
+    },
+    "log_odm_test_5_L.csv": {
+        "initial_error": 0.21296990128081456,
+        "simulated_error": 0.08337657246511025,
+        "optimized_error": 0.048086276059684685
+    },
+    "log_odm_test_6_L.csv": {
+        "initial_error": 0.20870838478253598,
+        "simulated_error": 0.09177322914952447,
+        "optimized_error": 0.04912139307457213
+    },
+    "log_odm_test_7_L.csv": {
+        "initial_error": 0.21931041745709837,
+        "simulated_error": 0.07755291109756424,
+        "optimized_error": 0.05547831384608305
+    },
+    "log_odm_test_8_L.csv": {
+        "initial_error": 0.21839118081117104,
+        "simulated_error": 0.08693782938697231,
+        "optimized_error": 0.04555165292349976
+    },
+    "log_odm_test_9_L.csv": {
+        "initial_error": 0.22672587402469133,
+        "simulated_error": 0.09344027423718636,
+        "optimized_error": 0.047624551828788705
+    }
+}

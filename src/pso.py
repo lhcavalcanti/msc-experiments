@@ -1,69 +1,96 @@
 # import modules
+import json
+import pprint
 import numpy as np
 from pyswarms.single.global_best import GlobalBestPSO
+# from pyswarms.single.local_best import LocalBestPSO
 
 # import local libs
 from libs.read import Read
 from libs.error import Error
 from libs.odometry import Odometry
+from libs.plotter import Plotter
 
-# version = 'pathing-test4-L-1'
-dataFile = 'data/Calibration/21-11-09/Teste 5/test-5-L-logs-2021-11-09.11:56:44.csv'
-
-error = Error()
-read = Read(dataFile)
-motors = read.getMotors()
-vision = read.getVision()
-odometry = read.getOdometry()
-pcktIds = read.getPacketIds()
 
 orgIJ1 = [[0.34641, 0.282843, -0.282843, -0.34641], [0.414214, -0.414216, -0.414214, 0.414214], [3.616966, 2.556874, 2.556874, 3.616966]]
-orgRobotRadius = 0.02475
-def path_error(x):
+orgWheelRadius = 0.02475
+packet_mod = 255
+t_sample = 5
+num_files = 9
+initial_file = 1
+files = [Read('data/Calibration/22-08-10/log_odm_test_'+str(i)+'_L.csv') for i in range(initial_file, num_files+initial_file)] 
+# 'data/Calibration/21-11-09-new/test-4-L-logs-'+str(i)+'.csv'
+# 'data/Calibration/22-08-10/log_odm_test_'+str(i)+'_L.csv'
+
+# PSO PARAMETERS
+num_iterations = 1000
+limit = 0.1
+
+def multiples_paths_error(x):
+    avg_error = 0
+    for file in files:
+        avg_error += path_error(x, file)
+    return avg_error/len(files)
+def path_error(x, file: Read):
      ## Recreating Path
     iJ1 = [[x[0], x[1], x[2], x[3]], [x[4], x[5], x[6], x[7]], [x[8], x[9], x[10], x[11]]]
     robotRadius = x[12]
-    odm = Odometry(iJ1, robotRadius)
-    # predict = [vision[0].tolist()]
-    predictIMU = [vision[0].tolist()]
-    for a in range(len(motors)-1):
-        # predict.append(odm.newPosition(motors[a], motors[a+1], predict[a], pcktIds[a+1]-pcktIds[a]))
-        predictIMU.append(odm.newPositionIMU(motors[a], motors[a+1], predictIMU[a], odometry[a+1,2]-odometry[a,2], pcktIds[a+1]-pcktIds[a]))
-    # predict = np.squeeze(predict)
-    predictIMU = np.squeeze(predictIMU)
-
-    # return error.RMSE(read.getVision2D(), predict[:,0:2])
-    return error.RMSE(read.getVision2D(), predictIMU[:,0:2])
+    odm = Odometry(file, iJ1, robotRadius, packet_mod, t_sample)
+    predict = odm.simulate_path_angle()
+    error = Error()
+    return error.RMSE(file.get_vision_2d(), predict[:,0:2])
 
 def robot_path_error(x):
     n_particles = x.shape[0]  # number of particles
-    errors = [path_error(x[i]) for i in range(n_particles)]
+    errors = [multiples_paths_error(x[i]) for i in range(n_particles)]
     return np.array(errors)
 
-# instatiate the optimizer
-options = {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
-p = np.append(np.reshape(orgIJ1,(12)), orgRobotRadius)
-p_max = p + 0.005
-p_min = p - 0.005
-bounds = (p_min, p_max)
+if __name__ == '__main__':    
+    # instatiate the optimizer
+    p = np.append(np.reshape(orgIJ1,(12)), orgWheelRadius)
+    p_max = p + limit
+    p_min = p - limit
+    bounds = (p_min, p_max)
+    print("Initial cost: ", multiples_paths_error(p))
+    print("Initial parameters: ")
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(p)
 
-optimizer = GlobalBestPSO(n_particles=20, dimensions=13, options=options, bounds=bounds)
+    options = {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+    optimizer = GlobalBestPSO(n_particles=20, dimensions=13, options=options, bounds=bounds)
 
-# now run the optimization, pass a=1 and b=100 as a tuple assigned to args
+    # now run the optimization, pass a=1 and b=100 as a tuple assigned to args
+    cost, param = optimizer.optimize(robot_path_error, num_iterations)
+    
+    result = dict()
+    result["initial_parameters"] = p.tolist()
+    result["initial_cost"] =  multiples_paths_error(p)
+    result["pso_options"] = options
+    result["pso_limtit"] = limit
+    result["optimized_parameters"] = param.tolist()
+    result["optimized_cost"] = cost
+    
+    print("Generating graphs and saving result.")
+    plotters = [Plotter(file, orgIJ1, orgWheelRadius, param, cost, packet_mod, t_sample, limit) for file in files]
+    for plotter in plotters:
+        plotter.plot_vision_odometry_simulated()
+        (original_error, simulated_error, optimized_error) = plotter.get_errors()
+        result[plotter.get_file_name()] = dict()
+        result[plotter.get_file_name()]["initial_error"] = original_error
+        result[plotter.get_file_name()]["simulated_error"] = simulated_error
+        result[plotter.get_file_name()]["optimized_error"] = optimized_error
 
-cost, pos = optimizer.optimize(robot_path_error, 1000)
+    
+    print("Saving parameters.")
+    with open(plotter.get_result_path(), 'w') as f:
+        json.dump(result, f, indent=4)
+
+    # optionsLocal = {'c1': 0.5, 'c2': 0.3, 'w': 0.9, 'k': 3, 'p': 2}
+    # optimizerLocal = LocalBestPSO(n_particles=20, dimensions=13, options=optionsLocal, bounds=bounds)
+
+    # # now run the optimization, pass a=1 and b=100 as a tuple assigned to args
+    # costLocal, posLocal = optimizerLocal.optimize(robot_path_error, 1000)
 
 
 
 
-
-
-
-
-
-# exit
-
-
-# print('Original RMSE: {0}'.format(error.RMSE(read.getVision2D(),read.getOdometry2D())))
-# print('Predict RMSE: {0}'.format(error.RMSE(read.getVision2D(), predict[:,0:2])))
-# print('PredictIMU RMSE: {0}'.format(error.RMSE(read.getVision2D(), predictIMU[:,0:2])))
