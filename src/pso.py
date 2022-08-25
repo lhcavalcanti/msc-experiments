@@ -1,7 +1,9 @@
 # import modules
 import json
 import pprint
+from timeit import repeat
 import numpy as np
+import multiprocessing as mp
 from pyswarms.single.global_best import GlobalBestPSO
 # from pyswarms.single.local_best import LocalBestPSO
 
@@ -18,29 +20,38 @@ packet_mod = 255
 t_sample = 5
 num_files = 9
 initial_file = 1
-files = [Read('data/Calibration/22-08-10/log_odm_test_'+str(i)+'_L.csv') for i in range(initial_file, num_files+initial_file)] 
+files = [Read('data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
 # 'data/Calibration/21-11-09-new/test-4-L-logs-'+str(i)+'.csv'
-# 'data/Calibration/22-08-10/log_odm_test_'+str(i)+'_L.csv'
+# 'data/Calibration/22-08-10/log_odm_test_'+str(i)+'_L.csv' (OLD)
+
+# 'data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv'
+# 'data/Calibration/22-08-24/logs-2022-08-23 (1).csv'
 
 # PSO PARAMETERS
 num_iterations = 1000
-limit = 0.1
+limit = 0.11
 
 def multiples_paths_error(x):
     avg_error = 0
     for file in files:
-        avg_error += path_error(x, file)
+        avg_error += path_error(file, x)
     return avg_error/len(files)
-def path_error(x, file: Read):
+    
+def path_error(file: Read, x):
      ## Recreating Path
     iJ1 = [[x[0], x[1], x[2], x[3]], [x[4], x[5], x[6], x[7]], [x[8], x[9], x[10], x[11]]]
     robotRadius = x[12]
     odm = Odometry(file, iJ1, robotRadius, packet_mod, t_sample)
-    predict = odm.simulate_path_angle()
+    predict = odm.simulate_path_angle_vision()
     error = Error()
     return error.RMSE(file.get_vision_2d(), predict[:,0:2])
 
 def robot_path_error(x):
+    pool_obj = mp.Pool()
+    errors = pool_obj.map(multiples_paths_error, x)
+    return np.array(errors)
+
+def robot_path_error_old(x):
     n_particles = x.shape[0]  # number of particles
     errors = [multiples_paths_error(x[i]) for i in range(n_particles)]
     return np.array(errors)
@@ -64,25 +75,25 @@ if __name__ == '__main__':
     
     result = dict()
     result["initial_parameters"] = p.tolist()
-    result["initial_cost"] =  multiples_paths_error(p)
+    result["initial_simulated_cost"] =  multiples_paths_error(p)
     result["pso_options"] = options
     result["pso_limtit"] = limit
     result["optimized_parameters"] = param.tolist()
     result["optimized_cost"] = cost
     
-    print("Generating graphs and saving result.")
+    print("Generating graphs and result.")
     plotters = [Plotter(file, orgIJ1, orgWheelRadius, param, cost, packet_mod, t_sample, limit) for file in files]
     for plotter in plotters:
-        plotter.plot_vision_odometry_simulated()
+        plotter.plot_vision_odometry_simulated_optimized()
         (original_error, simulated_error, optimized_error) = plotter.get_errors()
         result[plotter.get_file_name()] = dict()
-        result[plotter.get_file_name()]["initial_error"] = original_error
+        result[plotter.get_file_name()]["odometry_error"] = original_error
         result[plotter.get_file_name()]["simulated_error"] = simulated_error
         result[plotter.get_file_name()]["optimized_error"] = optimized_error
 
     
     print("Saving parameters.")
-    with open(plotter.get_result_path(), 'w') as f:
+    with open(plotter.get_result_path("optimization", "result"), 'w') as f:
         json.dump(result, f, indent=4)
 
     # optionsLocal = {'c1': 0.5, 'c2': 0.3, 'w': 0.9, 'k': 3, 'p': 2}

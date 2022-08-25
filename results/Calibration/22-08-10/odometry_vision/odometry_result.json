@@ -1,0 +1,45 @@
+{
+    "initial_parameters": [
+        0.34641,
+        0.282843,
+        -0.282843,
+        -0.34641,
+        0.414214,
+        -0.414216,
+        -0.414214,
+        0.414214,
+        3.616966,
+        2.556874,
+        2.556874,
+        3.616966,
+        0.02475
+    ],
+    "initial_simulated_cost": 0.09141427018000137,
+    "log_odm_test_L (1).csv": {
+        "odometry_error": 0.2409030230342501
+    },
+    "log_odm_test_L (2).csv": {
+        "odometry_error": 0.2403014565970114
+    },
+    "log_odm_test_L (3).csv": {
+        "odometry_error": 0.24306835824110615
+    },
+    "log_odm_test_L (4).csv": {
+        "odometry_error": 0.23671773613930988
+    },
+    "log_odm_test_L (5).csv": {
+        "odometry_error": 0.2581094592927658
+    },
+    "log_odm_test_L (6).csv": {
+        "odometry_error": 0.24142693667724918
+    },
+    "log_odm_test_L (7).csv": {
+        "odometry_error": 0.2538686101433569
+    },
+    "log_odm_test_L (8).csv": {
+        "odometry_error": 0.24295897048121146
+    },
+    "log_odm_test_L (9).csv": {
+        "odometry_error": 0.24483866392678696
+    }
+}

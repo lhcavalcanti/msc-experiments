@@ -104,5 +104,5 @@ fig2.savefig("vis&odometry-"+version+".png", dpi=500)
 
 
 plotter = Plotter(read, iJ1, robotRadius, result_pred, error.RMSE(read.get_vision_2d(), predict_imu[:,0:2]), None, 15)
-plotter.plot_vision_odometry_simulated()
+plotter.plot_vision_odometry_simulated_optimized()
 

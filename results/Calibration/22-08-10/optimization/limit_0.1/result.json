@@ -1,0 +1,85 @@
+{
+    "initial_parameters": [
+        0.34641,
+        0.282843,
+        -0.282843,
+        -0.34641,
+        0.414214,
+        -0.414216,
+        -0.414214,
+        0.414214,
+        3.616966,
+        2.556874,
+        2.556874,
+        3.616966,
+        0.02475
+    ],
+    "initial_simulated_cost": 0.09141427018000137,
+    "pso_options": {
+        "c1": 0.5,
+        "c2": 0.3,
+        "w": 0.9
+    },
+    "pso_limtit": 0.1,
+    "optimized_parameters": [
+        0.2789816748585891,
+        0.3084160383718809,
+        -0.31686191161249827,
+        -0.3639892672134226,
+        0.34423890807428126,
+        -0.4189454987616652,
+        -0.3885860190602231,
+        0.3225702162690345,
+        3.6157930464193466,
+        2.5370431325934977,
+        2.538698324072108,
+        3.6093012076179973,
+        0.02600567370728934
+    ],
+    "optimized_cost": 0.048891957531678694,
+    "log_odm_test_L (1).csv": {
+        "odometry_error": 0.2409030230342501,
+        "simulated_error": 0.10837961135523125,
+        "optimized_error": 0.07698529421216256
+    },
+    "log_odm_test_L (2).csv": {
+        "odometry_error": 0.2403014565970114,
+        "simulated_error": 0.09048247466396271,
+        "optimized_error": 0.03931298358381063
+    },
+    "log_odm_test_L (3).csv": {
+        "odometry_error": 0.24306835824110615,
+        "simulated_error": 0.0950783917571317,
+        "optimized_error": 0.03910751213705526
+    },
+    "log_odm_test_L (4).csv": {
+        "odometry_error": 0.23671773613930988,
+        "simulated_error": 0.08103953176633871,
+        "optimized_error": 0.050965924449613835
+    },
+    "log_odm_test_L (5).csv": {
+        "odometry_error": 0.2581094592927658,
+        "simulated_error": 0.10369454144234319,
+        "optimized_error": 0.03875726913292125
+    },
+    "log_odm_test_L (6).csv": {
+        "odometry_error": 0.24142693667724918,
+        "simulated_error": 0.09295398749459265,
+        "optimized_error": 0.049571755579871396
+    },
+    "log_odm_test_L (7).csv": {
+        "odometry_error": 0.2538686101433569,
+        "simulated_error": 0.07231143515372933,
+        "optimized_error": 0.0406612978037712
+    },
+    "log_odm_test_L (8).csv": {
+        "odometry_error": 0.24295897048121146,
+        "simulated_error": 0.0983733640429284,
+        "optimized_error": 0.03825203358790871
+    },
+    "log_odm_test_L (9).csv": {
+        "odometry_error": 0.24483866392678696,
+        "simulated_error": 0.08041509394375439,
+        "optimized_error": 0.06641354729799341
+    }
+}
