@@ -29,29 +29,17 @@ class Odometry:
         path_simulation = np.squeeze(path_simulation)
         return path_simulation
 
-    def simulate_path_angle(self):
+    def simulate_path_angle(self, angle_type: str = "odometry"):
         vision = self.file.get_vision()
         motors = self.file.get_motors()
         odometry = self.file.get_odometry()
         pckt_cnt = self.file.get_packet_count()
         path_simulation = [vision[0].tolist()]
         for a in range(len(motors)-1):
-            angle_diff = odometry[a+1,2]-odometry[a,2]
-            packet_diff = pckt_cnt[a+1]-pckt_cnt[a]
-            if self.mod != None:
-                packet_diff = packet_diff % self.mod
-            path_simulation.append(self.new_position_angle(motors[a], motors[a+1], path_simulation[a], angle_diff, packet_diff))
-        path_simulation = np.squeeze(path_simulation)
-        return path_simulation
-
-    def simulate_path_angle_vision(self):
-        vision = self.file.get_vision()
-        motors = self.file.get_motors()
-        # odometry = self.file.get_odometry()
-        pckt_cnt = self.file.get_packet_count()
-        path_simulation = [vision[0].tolist()]
-        for a in range(len(motors)-1):
-            angle_diff = vision[a+1,2]-vision[a,2]
+            if angle_type == "odometry":
+                angle_diff = odometry[a+1,2]-odometry[a,2]
+            else:
+                angle_diff = vision[a+1,2]-vision[a,2]
             packet_diff = pckt_cnt[a+1]-pckt_cnt[a]
             if self.mod != None:
                 packet_diff = packet_diff % self.mod

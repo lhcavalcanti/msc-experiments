@@ -21,13 +21,12 @@ t_sample = 5
 num_files = 9
 initial_file = 1
 files = [Read('data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
-# 'data/Calibration/21-11-09-new/test-4-L-logs-'+str(i)+'.csv'
-# 'data/Calibration/22-08-10/log_odm_test_'+str(i)+'_L.csv' (OLD)
 
 # 'data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv'
 # 'data/Calibration/22-08-24/logs-2022-08-23 (1).csv'
 
 # PSO PARAMETERS
+angle_type = "vision"
 num_iterations = 1000
 limit = 0.11
 
@@ -42,7 +41,7 @@ def path_error(file: Read, x):
     iJ1 = [[x[0], x[1], x[2], x[3]], [x[4], x[5], x[6], x[7]], [x[8], x[9], x[10], x[11]]]
     robotRadius = x[12]
     odm = Odometry(file, iJ1, robotRadius, packet_mod, t_sample)
-    predict = odm.simulate_path_angle_vision()
+    predict = odm.simulate_path_angle(angle_type)
     error = Error()
     return error.RMSE(file.get_vision_2d(), predict[:,0:2])
 
@@ -51,10 +50,6 @@ def robot_path_error(x):
     errors = pool_obj.map(multiples_paths_error, x)
     return np.array(errors)
 
-def robot_path_error_old(x):
-    n_particles = x.shape[0]  # number of particles
-    errors = [multiples_paths_error(x[i]) for i in range(n_particles)]
-    return np.array(errors)
 
 if __name__ == '__main__':    
     # instatiate the optimizer
@@ -82,7 +77,7 @@ if __name__ == '__main__':
     result["optimized_cost"] = cost
     
     print("Generating graphs and result.")
-    plotters = [Plotter(file, orgIJ1, orgWheelRadius, param, cost, packet_mod, t_sample, limit) for file in files]
+    plotters = [Plotter(file, orgIJ1, orgWheelRadius, param, cost, packet_mod, t_sample, limit, angle_type) for file in files]
     for plotter in plotters:
         plotter.plot_vision_odometry_simulated_optimized()
         (original_error, simulated_error, optimized_error) = plotter.get_errors()
@@ -95,13 +90,6 @@ if __name__ == '__main__':
     print("Saving parameters.")
     with open(plotter.get_result_path("optimization", "result"), 'w') as f:
         json.dump(result, f, indent=4)
-
-    # optionsLocal = {'c1': 0.5, 'c2': 0.3, 'w': 0.9, 'k': 3, 'p': 2}
-    # optimizerLocal = LocalBestPSO(n_particles=20, dimensions=13, options=optionsLocal, bounds=bounds)
-
-    # # now run the optimization, pass a=1 and b=100 as a tuple assigned to args
-    # costLocal, posLocal = optimizerLocal.optimize(robot_path_error, 1000)
-
 
 
 

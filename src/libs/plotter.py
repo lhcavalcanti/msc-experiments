@@ -9,9 +9,10 @@ from libs.error import Error
 from libs.odometry import Odometry
 
 class Plotter:  
-    def __init__(self, file: Read, org_iJ1, org_wheel_r, new_matrix, final_cost, packet_mod, tsample, limits):
+    def __init__(self, file: Read, org_iJ1, org_wheel_r, new_matrix, final_cost, packet_mod, tsample, limits, angle_type='odometry'):
         self.file = file
         self.simulated_cost = final_cost
+        self.angle_type = angle_type
         if org_iJ1 is not None:
             self.odm = Odometry(file, org_iJ1, org_wheel_r, packet_mod, tsample)
         if new_matrix is not None:
@@ -19,8 +20,8 @@ class Plotter:
         self.limits = limits
 
     def get_errors(self):
-        simulated = self.odm.simulate_path_angle_vision()
-        optimized = self.optimized_odm.simulate_path_angle_vision()
+        simulated = self.odm.simulate_path_angle(self.angle_type)
+        optimized = self.optimized_odm.simulate_path_angle(self.angle_type)
         return self.calculate_error(simulated, optimized)
 
     def calculate_error(self , simulated=None, optimized=None):
@@ -79,15 +80,15 @@ class Plotter:
         # plt.show()
     
     def plot_vision_odometry_simulated_optimized(self, ground_truth="line", limits = (11, 16.5)):
-        simulated = self.odm.simulate_path_angle_vision()
-        optimized = self.optimized_odm.simulate_path_angle_vision()
+        simulated = self.odm.simulate_path_angle(self.angle_type)
+        optimized = self.optimized_odm.simulate_path_angle(self.angle_type)
         # print("Simulated Path: ", simulated.shape)
         # print("Optimized Path: ", optimized.shape)
         (odometry_error, simulated_error, optimized_error) = self.calculate_error(simulated, optimized)
         
         figure, (position, angles, errors) = plt.subplots(3)
         position.plot(self.file.get_vision()[:, 0], self.file.get_vision()[:, 1], 'r', label="vision")
-        position.plot(self.file.get_odometry()[:, 0], self.file.get_odometry()[:, 1], linestyle='--', 'g',  label="odometry: RMSE={:.4f}".format(odometry_error))
+        position.plot(self.file.get_odometry()[:, 0], self.file.get_odometry()[:, 1], 'g', linestyle='--', label="odometry: RMSE={:.4f}".format(odometry_error))
         position.plot(simulated[:, 0], simulated[:, 1], 'blue', linestyle='--', label="simulated: RMSE={:.4f}".format(simulated_error))
         position.plot(optimized[:, 0], optimized[:, 1], 'orange', label="optimized: RMSE={:.4f}".format(optimized_error))
         
@@ -144,7 +145,7 @@ class Plotter:
         if self.limits is None:
             path[-2] = path[-2] + "/" + graph_type
         else:
-            path[-2] = path[-2] + "/" + graph_type + "/limit_" + str(self.limits)
+            path[-2] = path[-2] + "/" + graph_type + "/limit_" + str(self.limits) + "_angle_" + self.angle_type
 
         return ("/".join(path)).replace('.csv', '.png')
         
