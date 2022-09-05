@@ -46,6 +46,7 @@ class Plotter:
         figure, (position, angles, errors) = plt.subplots(3)
         position.plot(self.file.get_vision()[:, 0], self.file.get_vision()[:, 1], 'r', label="vision")
         position.plot(self.file.get_odometry()[:, 0], self.file.get_odometry()[:, 1], 'g', linestyle='--', label="odometry: RMSE={:.4f}".format(odometry_error))
+        position.plot(self.file.get_vision()[0, 0], self.file.get_vision()[0, 1], 'b', marker='o', label="initial position")
 
         position.legend(loc='best')	
         position.set(xlabel='x (m)', ylabel='y (m)', title='Vision, Odometry, Simulated and Optmized positions')
@@ -53,7 +54,7 @@ class Plotter:
         if(ground_truth == "square"): # Square
             position.plot([-2, 0, 0, -2, -2], [-1, -1, 1, 1, -1], 'black', label="ground truth", linestyle=':')
             position.set_xlim([-2.5, 0.5])
-            position.set_ylim([-1.5, 1.5])
+            position.set_ylim([-2, 2])
         elif(ground_truth == "line"): # Line
             position.plot([-2, 0.2], [-1, -1], 'black', label="ground truth", linestyle=':')
             position.set_xlim([-2.5, 0.5])
