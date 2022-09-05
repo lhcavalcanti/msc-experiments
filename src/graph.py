@@ -17,7 +17,7 @@ trained_parameters = [0.3056409833172562, 0.3363018352994833, -0.234046951061907
 
 packet_mod = 255
 t_sample = 5
-num_files = 1
+num_files = 6
 initial_file = 1
 files = [Read('data/Odometry+Vision/09-05-22/log('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
 
