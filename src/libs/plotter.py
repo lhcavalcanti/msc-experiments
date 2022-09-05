@@ -52,8 +52,8 @@ class Plotter:
         
         if(ground_truth == "square"): # Square
             position.plot([-2, 0, 0, -2, -2], [-1, -1, 1, 1, -1], 'black', label="ground truth", linestyle=':')
-            position.set_xlim([-2.8, -1.5])
-            position.set_ylim([-2, -0.5])
+            position.set_xlim([-2.5, 0.5])
+            position.set_ylim([-1.5, 1.5])
         elif(ground_truth == "line"): # Line
             position.plot([-2, 0.2], [-1, -1], 'black', label="ground truth", linestyle=':')
             position.set_xlim([-2.5, 0.5])

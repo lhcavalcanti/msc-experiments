@@ -10,6 +10,7 @@ class Read:
         self.motors = []
         self.pckt_count = []
         self.compare = []
+        self.change_state = []
         with open(path) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             line_count = 0
@@ -22,6 +23,7 @@ class Read:
                     self.odometry.append([float(row[1]), float(row[2]), float(row[3])])
                     self.vision.append([float(row[8]), float(row[9]), float(row[10])])
                     self.pckt_count.append(int(row[14]))
+                    self.change_state.append(int(row[15]))
                     if compare:
                         # GYRO_W, ODM_W, BOTH_W, VIS_W
                         self.compare.append([float(row[4]), float(row[5]), float(row[6]), float(row[7])])
