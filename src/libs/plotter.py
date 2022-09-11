@@ -1,6 +1,4 @@
 # Import libraries
-from operator import ne
-from pickletools import optimize
 import matplotlib.pyplot as plt
 import os
 
@@ -137,7 +135,7 @@ class Plotter:
         if self.limits is None:
             path[-2] = path[-2] + "/" + graph_type
         else:
-            path[-2] = path[-2] + "/" + graph_type + "/limit_" + str(self.limits) 
+            path[-2] = path[-2] + "/" + graph_type + "/limit_" + str(self.limits) + "_angle_" + self.angle_type
         return "/".join(path)
         
     def get_graph_path(self, graph_type):

@@ -18,17 +18,19 @@ orgIJ1 = [[0.34641, 0.282843, -0.282843, -0.34641], [0.414214, -0.414216, -0.414
 orgWheelRadius = 0.02475
 packet_mod = 255
 t_sample = 5
-num_files = 9
+num_files = 8
 initial_file = 1
-files = [Read('data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
+files = [Read('data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
 
 # 'data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv'
 # 'data/Calibration/22-08-24/logs-2022-08-23 (1).csv'
 
+# 'data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv' # 8 raw logs with vision navigation
+
 # PSO PARAMETERS
 angle_type = "vision"
-num_iterations = 1000
-limit = 0.11
+num_iterations = 10000
+limit = 0.16
 
 def multiples_paths_error(x):
     avg_error = 0

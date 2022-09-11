@@ -13,19 +13,20 @@ from libs.plotter import Plotter
 
 orgIJ1 = [[0.34641, 0.282843, -0.282843, -0.34641], [0.414214, -0.414216, -0.414214, 0.414214], [3.616966, 2.556874, 2.556874, 3.616966]]
 orgWheelRadius = 0.02475
-trained_parameters = [0.3056409833172562, 0.3363018352994833, -0.23404695106190718, -0.3821316419741716, 0.40398049419707555, -0.3304322345423135, -0.3274095267706663, 0.4201915569973511, 3.6534993885137745, 2.494656148762584, 2.4968297062640725, 3.6986832455144674, 0.025901348179740186]
 
 packet_mod = 255
 t_sample = 5
-num_files = 9
+num_files = 8
 initial_file = 1
-files = [Read('data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
+files = [Read('data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
 
 # 'data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv'
 # 'data/Calibration/22-08-24/logs-2022-08-23 ('+str(i)+').csv'
 
-# 'data/Calibration/22-08-25/odm/logs-2022-08-25 ('+str(i)+').csv'  # 8 Odometry angle test from 22-08-10 data.
-# 'data/Calibration/22-08-25/vis/logs-2022-08-25 ('+str(i)+').csv'  # 8 Vision angle test from 22-08-10 data.
+# 'data/Calibration/22-08-25/odm-optimized/logs-2022-08-25 ('+str(i)+').csv'  # 8 Odometry angle optimized from 22-08-10 data.
+# 'data/Calibration/22-08-25/vis-optimized/logs-2022-08-25 ('+str(i)+').csv'  # 8 Vision angle optimized from 22-08-10 data.
+
+# 'data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv' # 8 raw logs with vision navigation
 
 def multiples_paths_error(x):
     avg_error = 0
@@ -47,18 +48,7 @@ def robot_path_error(x):
     return np.array(errors)
 
 if __name__ == '__main__':    
-    # instatiate the optimizer
     result = dict()
-    # if len(trained_parameters) == 0:
-    #     p = np.append(np.reshape(orgIJ1,(12)), orgWheelRadius)
-    #     result["initial_parameters"] = p.tolist()
-    # else:
-    #     p = trained_parameters
-    #     result["initial_parameters"] = p
-
-    # cost =  multiples_paths_error(p)
-    # result["initial_simulated_cost"] = cost
-    
     print("Generating graphs and result.")
     plotters = [Plotter(file, None, None, None, 0, packet_mod, t_sample, None) for file in files]
     for plotter in plotters:
