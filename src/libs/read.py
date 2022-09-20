@@ -14,9 +14,15 @@ class Read:
         with open(path) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             line_count = 0
+            first_line = True
+            rotating = False
+            new_file = False
+            columns = []
+            i=1
             for row in csv_reader:
                 if line_count == 0:
-                    # print("Column names are ", ", ".join(row))
+                    #print("Column names are ", ", ".join(row))
+                    columns = row
                     line_count += 1
                 else:
                     self.robotId = row[0]
@@ -30,6 +36,29 @@ class Read:
                     else:
                         self.motors.append([float(row[4]), float(row[5]), float(row[6]), float(row[7])])
                     line_count += 1
+
+                # if (rotating == True) and (new_file == True):
+                #     i = i + 1
+                #     new_file = False 
+                #     first_line = True
+                # else:
+                #     pass
+                # with open('data/Odometry+Vision/final_data/log('+str(i)+').csv', 'a', newline='') as file:
+                #     writer = csv.writer(file)
+                #     if first_line:
+                #         print("printou first line")
+                #         writer.writerow(columns)
+                #         first_line = False
+                #     else:
+                #         if int(row[15])==0:
+                #             rotating = True
+                #         else:
+                #             writer.writerow(row)
+                #             rotating = False
+                #             new_file = True
+
+                # print(f'i = {i}, rotating = {rotating}, new_file = {new_file}')
+                
             # print('Processed {0} lines.'.format(line_count))
 
     def get_odometry(self):

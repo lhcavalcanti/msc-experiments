@@ -1,0 +1,26 @@
+{
+    "log(1).csv": {
+        "odometry_error": 0.19506307809613796
+    },
+    "log(2).csv": {
+        "odometry_error": 0.347801950939989
+    },
+    "log(3).csv": {
+        "odometry_error": 0.3302395284415541
+    },
+    "log(4).csv": {
+        "odometry_error": 0.1768928387934345
+    },
+    "log(5).csv": {
+        "odometry_error": 0.24043046370291765
+    },
+    "log(6).csv": {
+        "odometry_error": 0.3758700229702304
+    },
+    "log(7).csv": {
+        "odometry_error": 0.3447269482013
+    },
+    "log(8).csv": {
+        "odometry_error": 0.24504056192764495
+    }
+}
