@@ -17,10 +17,10 @@ trained_parameters = [0.3056409833172562, 0.3363018352994833, -0.234046951061907
 
 packet_mod = 255
 t_sample = 5
-num_files = 8
+num_files = 3
 initial_file = 1
 #files = [Read('data/Odometry+Vision/09-12-22/log('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
-files = [Read('data/Odometry+Vision/final_data/log('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
+files = [Read('data/Odometry+Vision/09-22-22/odometry/log('+str(i)+').csv', 'data/Odometry+Vision/09-22-22/vision_blackout/log('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
 
 # 'data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv'
 # 'data/Calibration/22-08-24/logs-2022-08-23 ('+str(i)+').csv'

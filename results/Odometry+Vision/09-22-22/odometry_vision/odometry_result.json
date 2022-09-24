@@ -1,0 +1,14 @@
+{
+    "log(1).csv": {
+        "odometry_error": 1.3394689301013973
+    },
+    "log(2).csv": {
+        "odometry_error": 2.2794866887080296
+    },
+    "log(3).csv": {
+        "odometry_error": 2.3401783905005957
+    },
+    "log(4).csv": {
+        "odometry_error": 2.312676647791777
+    }
+}

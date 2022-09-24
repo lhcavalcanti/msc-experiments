@@ -41,36 +41,75 @@ class Plotter:
     def plot_vision_odometry(self, ground_truth="line", limits = (11, 16.5)):
         # print("Simulated Path: ", simulated.shape)
         # print("Optimized Path: ", optimized.shape)
-        (odometry_error, simulated_error, optimized_error) = self.calculate_error()
+        #(odometry_error, simulated_error, optimized_error) = self.calculate_error()
         
-        figure, (position, angles, errors) = plt.subplots(3)
-        position.plot(self.file.get_vision()[:, 0], self.file.get_vision()[:, 1], 'r', label="vision")
-        position.plot(self.file.get_odometry()[:, 0], self.file.get_odometry()[:, 1], 'g', linestyle='--', label="odometry: RMSE={:.4f}".format(odometry_error))
-        position.plot(self.file.get_vision()[0, 0], self.file.get_vision()[0, 1], 'b', marker='o', label="initial position")
+        error = Error()
+        distortion_visionX, distortion_visionY = error.measureDistortion(self.file.get_vision())
+        distortion_odometryX, distortion_odometryY = error.measureDistortion(self.file.get_odometry())
+        distortion_blackoutX, distortion_blackoutY = error.measureDistortion(self.file.get_blackout())
 
-        position.legend(loc='best')	
-        position.set(xlabel='x (m)', ylabel='y (m)', title='Vision, Odometry, Simulated and Optmized positions')
+        #print(distortion_blackoutY)
+        print(distortion_visionX, distortion_odometryX, distortion_blackoutX)
+        #print(distortion_visionY, distortion_odometryY, distortion_blackoutY)
+        #print(distortion_visionY, distortion_blackoutY, distortion_odometryY)        
+        figure, (vision_position, odometry_position, blackout_position) = plt.subplots(3)
+        
+ 
+        vision_position.plot(self.file.get_vision()[:, 0], self.file.get_vision()[:, 1], 'r', linestyle='--',label="vision: distortionX={:.4f}\n           distortionY={:.4f}".format(distortion_visionX, distortion_visionY))
+
+        vision_position.legend(loc='best')	
+        vision_position.set(xlabel='x (m)', ylabel='y (m)', title='Vision positions')
         
         if(ground_truth == "square"): # Square
-            position.plot([-2, 0, 0, -2, -2], [-1, -1, 1, 1, -1], 'black', label="ground truth", linestyle=':')
-            position.set_xlim([-2.5, 0.5])
-            position.set_ylim([-2, 2])
+            vision_position.plot([0.5, 2.5, 2.5, 0.5, 0.5], [0.2, 0.2, 2.2, 2.2, 0.2], 'black', label="ground truth", linestyle=':')   
+            vision_position.set_xlim([0, 3.5])
+            vision_position.set_ylim([-0.5, 3])
         elif(ground_truth == "line"): # Line
-            position.plot([-2, 0.2], [-1, -1], 'black', label="ground truth", linestyle=':')
-            position.set_xlim([-2.5, 0.5])
-            position.set_ylim([-1.2, -0.2])
+            vision_position.set_xlim([-2.5, 0.5])
+            vision_position.set_ylim([-1.2, -0.2])
+            vision_position.plot([-2, 0.2], [-1, -1], 'black', label="ground truth", linestyle=':') 
+ 
+        #odometry_position.plot(self.file.get_odometry()[:, 0], self.file.get_odometry()[:, 1], 'g', linestyle='--', label="odometry: RMSE={:.4f}".format(odometry_error))
+        odometry_position.plot(self.file.get_odometry()[:, 0], self.file.get_odometry()[:, 1], 'g', linestyle='--', label="vision: distortionX={:.4f}\n           distortionY={:.4f}".format(distortion_odometryX, distortion_odometryY))
+
+        odometry_position.legend(loc='best')	
+        odometry_position.set(xlabel='x (m)', ylabel='y (m)', title='Vision, Odometry, Simulated and Optmized positions')
+        
+        if(ground_truth == "square"): # Square
+            odometry_position.set_xlim([0, 3.5])
+            odometry_position.plot([0.5, 2.5, 2.5, 0.5, 0.5], [0.2, 0.2, 2.2, 2.2, 0.2], 'black', label="ground truth", linestyle=':')   
+            odometry_position.set_ylim([-0.5, 3])
+        elif(ground_truth == "line"): # Line
+            odometry_position.plot([-2, 0.2], [-1, -1], 'black', label="ground truth", linestyle=':')
+            odometry_position.set_xlim([-2.5, 0.5])
+            odometry_position.set_ylim([-1.2, -0.2])
 
 
-        angles.plot(range(len(self.file.get_vision()[:, 2])), self.file.get_vision()[:, 2], 'r', label="vision")
-        angles.plot(range(len(self.file.get_odometry()[:, 2])), self.file.get_odometry()[:, 2], 'g', label="odometry", linestyle='--')
+        blackout_position.plot(self.file.get_blackout()[:, 0], self.file.get_blackout()[:, 1], 'b', linestyle='--', label="vision: distortionX={:.4f}\n           distortionY={:.4f}".format(distortion_blackoutX, distortion_blackoutY))
+
+        blackout_position.legend(loc='best')	
+        blackout_position.set(xlabel='x (m)', ylabel='y (m)', title='Vision, Odometry, Simulated and Optmized positions')
+        
+        if(ground_truth == "square"): # Square
+            blackout_position.plot([0.5, 2.5, 2.5, 0.5, 0.5], [0.2, 0.2, 2.2, 2.2, 0.2], 'black', label="ground truth", linestyle=':')   
+            blackout_position.set_xlim([0, 3.5])
+            blackout_position.set_ylim([-0.5, 3])
+        elif(ground_truth == "line"): # Line
+            blackout_position.plot([-2, 0.2], [-1, -1], 'black', label="ground truth", linestyle=':')
+            blackout_position.set_xlim([-2.5, 0.5])
+            blackout_position.set_ylim([-1.2, -0.2])
+
+
+        # angles.plot(range(len(self.file.get_vision()[:, 2])), self.file.get_vision()[:, 2], 'r', label="vision")
+        # angles.plot(range(len(self.file.get_odometry()[:, 2])), self.file.get_odometry()[:, 2], 'g', label="odometry", linestyle='--')
 
         
-        angles.legend(loc='best')
-        angles.set(xlabel='time steps', ylabel='w (rads)', title='Vision, Odometry and Simulated angles by time step')
+        # angles.legend(loc='best')
+        # angles.set(xlabel='time steps', ylabel='w (rads)', title='Vision, Odometry and Simulated angles by time step')
         
-        errors.bar('odometry to vision', odometry_error, color='g')
-        errors.bar('combined paths to vision', self.simulated_cost, color='yellow')
-        errors.set(xlabel='comparison', ylabel='errror (RMSE)', title='Odometry, Simulated and Optimized RMSE to Vision')
+        # errors.bar('odometry to vision', odometry_error, color='g')
+        # errors.bar('combined paths to vision', self.simulated_cost, color='yellow')
+        # errors.set(xlabel='comparison', ylabel='errror (RMSE)', title='Odometry, Simulated and Optimized RMSE to Vision')
 
         figure.set_size_inches(limits, forward=False)
         # print("Analysis from file: {0}".format(self.file.get_path()))

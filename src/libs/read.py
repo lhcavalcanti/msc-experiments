@@ -3,7 +3,7 @@ import csv
 import numpy as np
 
 class Read:
-    def __init__(self, path, compare = False):
+    def __init__(self, path, path_blackout, compare = False):
         self.path = path
         self.odometry = []
         self.vision = []
@@ -11,6 +11,24 @@ class Read:
         self.pckt_count = []
         self.compare = []
         self.change_state = []
+        self.blackout = []
+        with open(path_blackout) as csv_blackout:
+            csv_reader_blackout = csv.reader(csv_blackout, delimiter=',')
+            line_count = 0
+            first_line = True
+            rotating = False
+            new_file = False
+            columns = []
+            i=1
+            for row in csv_reader_blackout:
+                if line_count == 0:
+                    #print("Column names are ", ", ".join(row))
+                    columns = row
+                    line_count += 1
+                else:
+                    self.blackout.append([float(row[8]), float(row[9]), float(row[10])])
+                    line_count += 1
+
         with open(path) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             line_count = 0
@@ -76,6 +94,9 @@ class Read:
 
     def get_vision_2d(self):
         return np.array(self.vision)[:,0:2]
+
+    def get_blackout(self):
+        return np.array(self.blackout)
 
     def get_vision_vectors(self):
         vis = self.get_vision()
