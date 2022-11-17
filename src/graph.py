@@ -17,11 +17,11 @@ orgWheelRadius = 0.02475
 
 packet_mod = 255
 t_sample = 5
-num_files = 8
-initial_file = 1
-files = [Read('data/Calibration/22-09-12/logs-2022-09-12 ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
+# num_files = 8
+# initial_file = 1
+# files = [Read('data/Calibration/22-09-12/logs-2022-09-12 ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
 
-path = 'data/Calibration/22-11-01'
+path = 'data/Calibration/22-11-16'
 files = [Read(os.path.join(path, i)) for i in os.listdir(path)]
 
 # 'data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv' # 8 raw logs with vision navigation

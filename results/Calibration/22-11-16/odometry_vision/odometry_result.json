@@ -1,0 +1,14 @@
+{
+    "square_15.csv": {
+        "odometry_error": 0.43823304846043803
+    },
+    "square_10.csv": {
+        "odometry_error": 0.3748608561368739
+    },
+    "square_20.csv": {
+        "odometry_error": 0.47528538902687356
+    },
+    "square_25.csv": {
+        "odometry_error": 0.7588310401274849
+    }
+}
