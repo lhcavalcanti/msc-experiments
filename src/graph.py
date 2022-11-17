@@ -1,4 +1,5 @@
 # import modules
+import os
 import json
 import multiprocessing as mp
 import numpy as np
@@ -18,15 +19,13 @@ packet_mod = 255
 t_sample = 5
 num_files = 8
 initial_file = 1
-files = [Read('data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
+files = [Read('data/Calibration/22-09-12/logs-2022-09-12 ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
 
-# 'data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv'
-# 'data/Calibration/22-08-24/logs-2022-08-23 ('+str(i)+').csv'
-
-# 'data/Calibration/22-08-25/odm-optimized/logs-2022-08-25 ('+str(i)+').csv'  # 8 Odometry angle optimized from 22-08-10 data.
-# 'data/Calibration/22-08-25/vis-optimized/logs-2022-08-25 ('+str(i)+').csv'  # 8 Vision angle optimized from 22-08-10 data.
+path = 'data/Calibration/22-11-01'
+files = [Read(os.path.join(path, i)) for i in os.listdir(path)]
 
 # 'data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv' # 8 raw logs with vision navigation
+# 'data/Calibration/22-09-12/logs-2022-09-12 ('+str(i)+').csv' # 8 raw logs with optimized vision navigation
 
 def multiples_paths_error(x):
     avg_error = 0
@@ -52,7 +51,7 @@ if __name__ == '__main__':
     print("Generating graphs and result.")
     plotters = [Plotter(file, None, None, None, 0, packet_mod, t_sample, None) for file in files]
     for plotter in plotters:
-        plotter.plot_vision_odometry()
+        plotter.plot_vision_odometry(ground_truth="none")
         (original_error, simulated_error, optimized_error) = plotter.calculate_error()
         result[plotter.get_file_name()] = dict()
         result[plotter.get_file_name()]["odometry_error"] = original_error
