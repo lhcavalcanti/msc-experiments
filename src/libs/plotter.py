@@ -49,13 +49,13 @@ class Plotter:
         position.set(xlabel='x (m)', ylabel='y (m)', title='Vision, Odometry, Simulated and Optmized positions')
         
         if(ground_truth == "square"): # Square
-            position.plot([-2, 0, 0, -2, -2], [-1, -1, 1, 1, -1], 'black', label="ground truth", linestyle=':')
-            position.set_xlim([-2.8, -1.5])
-            position.set_ylim([-2, -0.5])
+            # position.plot([0.5, 0.5, 2.5, 2.5, 0.5], [-2.5, 2.5, 2.5, -2.5, -2.5], 'black', label="ground truth", linestyle=':')
+            position.set_xlim([-0.5, 3.5])
+            position.set_ylim([-3.5, 3.5])
         elif(ground_truth == "line"): # Line
-            position.plot([-2, 0.2], [-1, -1], 'black', label="ground truth", linestyle=':')
-            position.set_xlim([-2.5, 0.5])
-            position.set_ylim([-1.2, -0.2])
+            # position.plot([0.5, 0.5], [-2.5, 2.5], 'black', label="ground truth", linestyle=':')
+            position.set_xlim([-0.5, 1.5])
+            position.set_ylim([-3.5, 3.5])
 
 
         angles.plot(range(len(self.file.get_vision()[:, 2])), self.file.get_vision()[:, 2], 'r', label="vision")
@@ -95,13 +95,13 @@ class Plotter:
         
         
         if(ground_truth == "square"): # Square
-            position.plot([-2, 0, 0, -2, -2], [-1, -1, 1, 1, -1], 'black', label="ground truth", linestyle=':')
-            position.set_xlim([-2.8, -1.5])
-            position.set_ylim([-2, -0.5])
+            # position.plot([0.5, 0.5, 2.5, 2.5, 0.5], [-2.5, 2.5, 2.5, -2.5, -2.5], 'black', label="ground truth", linestyle=':')
+            position.set_xlim([-0.5, 3.5])
+            position.set_ylim([-3.5, 3.5])
         elif(ground_truth == "line"): # Line
-            position.plot([-2, 0.2], [-1, -1], 'black', label="ground truth", linestyle=':')
-            position.set_xlim([-2.5, 0.5])
-            position.set_ylim([-1.2, -0.2])
+            # position.plot([0.5, 0.5], [-2.5, 2.5], 'black', label="ground truth", linestyle=':')
+            position.set_xlim([-0.5, 1.5])
+            position.set_ylim([-3.5, 3.5])
 
 
         angles.plot(range(len(self.file.get_vision()[:, 2])), self.file.get_vision()[:, 2], 'r', label="vision")

@@ -17,9 +17,6 @@ orgWheelRadius = 0.02475
 
 packet_mod = 255
 t_sample = 5
-# num_files = 8
-# initial_file = 1
-# files = [Read('data/Calibration/22-09-12/logs-2022-09-12 ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
 
 path = 'data/Calibration/22-11-16'
 files = [Read(os.path.join(path, i)) for i in os.listdir(path)]
@@ -51,7 +48,7 @@ if __name__ == '__main__':
     print("Generating graphs and result.")
     plotters = [Plotter(file, None, None, None, 0, packet_mod, t_sample, None) for file in files]
     for plotter in plotters:
-        plotter.plot_vision_odometry(ground_truth="none")
+        plotter.plot_vision_odometry(ground_truth="square")
         (original_error, simulated_error, optimized_error) = plotter.calculate_error()
         result[plotter.get_file_name()] = dict()
         result[plotter.get_file_name()]["odometry_error"] = original_error
