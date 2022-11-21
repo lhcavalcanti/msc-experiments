@@ -1,4 +1,5 @@
 # import modules
+import os
 import json
 import pprint
 from timeit import repeat
@@ -18,9 +19,9 @@ orgIJ1 = [[0.34641, 0.282843, -0.282843, -0.34641], [0.414214, -0.414216, -0.414
 orgWheelRadius = 0.02475
 packet_mod = 255
 t_sample = 5
-num_files = 8
-initial_file = 1
-files = [Read('data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv') for i in range(initial_file, num_files+initial_file)] 
+
+path = 'data/Calibration/22-11-16'
+files = [Read(os.path.join(path, i)) for i in os.listdir(path)]
 
 # 'data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv'
 # 'data/Calibration/22-08-24/logs-2022-08-23 (1).csv'
@@ -28,7 +29,7 @@ files = [Read('data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv') 
 # 'data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv' # 8 raw logs with vision navigation
 
 # PSO PARAMETERS
-angle_type = "vision"
+angle_type = "odometry"
 num_iterations = 10000
 limit = 0.16
 
