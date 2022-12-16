@@ -18,7 +18,7 @@ from libs.plotter import Plotter
 orgIJ1 = [[0.34641, 0.282843, -0.282843, -0.34641], [0.414214, -0.414216, -0.414214, 0.414214], [3.616966, 2.556874, 2.556874, 3.616966]]
 orgWheelRadius = 0.02475
 packet_mod = 255
-t_sample = 5
+t_sample = 6.11
 
 path = 'data/Calibration/22-11-16'
 files = [Read(os.path.join(path, i)) for i in os.listdir(path)]
@@ -30,8 +30,8 @@ files = [Read(os.path.join(path, i)) for i in os.listdir(path)]
 
 # PSO PARAMETERS
 angle_type = "odometry"
-num_iterations = 10000
-limit = 0.16
+num_iterations = 5000
+limit = 0.12
 
 def multiples_paths_error(x):
     avg_error = 0
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     print("Generating graphs and result.")
     plotters = [Plotter(file, orgIJ1, orgWheelRadius, param, cost, packet_mod, t_sample, limit, angle_type) for file in files]
     for plotter in plotters:
-        plotter.plot_vision_odometry_simulated_optimized()
+        plotter.plot_vision_odometry_simulated_optimized(ground_truth="square")
         (original_error, simulated_error, optimized_error) = plotter.get_errors()
         result[plotter.get_file_name()] = dict()
         result[plotter.get_file_name()]["odometry_error"] = original_error

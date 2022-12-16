@@ -16,9 +16,9 @@ orgIJ1 = [[0.34641, 0.282843, -0.282843, -0.34641], [0.414214, -0.414216, -0.414
 orgWheelRadius = 0.02475
 
 packet_mod = 255
-t_sample = 5
+t_sample = 6.11
 
-path = 'data/Calibration/22-11-25'
+path = 'data/Calibration/22-12-15'
 files = [Read(os.path.join(path, i)) for i in os.listdir(path)]
 
 # 'data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv' # 8 raw logs with vision navigation
@@ -46,7 +46,7 @@ def robot_path_error(x):
 if __name__ == '__main__':    
     result = dict()
     print("Generating graphs and result.")
-    plotters = [Plotter(file, None, None, None, 0, packet_mod, t_sample, None) for file in files]
+    plotters = [Plotter(file, orgIJ1, orgWheelRadius, None, 0, packet_mod, t_sample, limits=None) for file in files]
     for plotter in plotters:
         plotter.plot_vision_odometry(ground_truth="square")
         (original_error, simulated_error, optimized_error) = plotter.calculate_error()

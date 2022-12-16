@@ -39,11 +39,13 @@ class Plotter:
     def plot_vision_odometry(self, ground_truth="line", limits = (11, 16.5)):
         # print("Simulated Path: ", simulated.shape)
         # print("Optimized Path: ", optimized.shape)
-        (odometry_error, simulated_error, optimized_error) = self.calculate_error()
+        simulated = self.odm.simulate_path_angle(self.angle_type)
+        (odometry_error, simulated_error, optimized_error) = self.calculate_error(simulated=simulated)
         
         figure, (position, angles, errors) = plt.subplots(3)
         position.plot(self.file.get_vision()[:, 0], self.file.get_vision()[:, 1], 'r', label="vision")
         position.plot(self.file.get_odometry()[:, 0], self.file.get_odometry()[:, 1], 'g', linestyle='--', label="odometry: RMSE={:.4f}".format(odometry_error))
+        # position.plot(simulated[:, 0], simulated[:, 1], 'blue', linestyle='--', label="simulated: RMSE={:.4f}".format(simulated_error))
 
         position.legend(loc='best')	
         position.set(xlabel='x (m)', ylabel='y (m)', title='Vision, Odometry, Simulated and Optmized positions')
@@ -51,7 +53,7 @@ class Plotter:
         if(ground_truth == "square"): # Square
             # position.plot([0.5, 0.5, 2.5, 2.5, 0.5], [-2.5, 2.5, 2.5, -2.5, -2.5], 'black', label="ground truth", linestyle=':')
             position.set_xlim([-0.5, 3.5])
-            position.set_ylim([-3.5, 3.5])
+            position.set_ylim([-3.5, 4.0])
         elif(ground_truth == "line"): # Line
             # position.plot([0.5, 0.5], [-2.5, 2.5], 'black', label="ground truth", linestyle=':')
             position.set_xlim([-0.5, 1.5])
@@ -60,6 +62,7 @@ class Plotter:
 
         angles.plot(range(len(self.file.get_vision()[:, 2])), self.file.get_vision()[:, 2], 'r', label="vision")
         angles.plot(range(len(self.file.get_odometry()[:, 2])), self.file.get_odometry()[:, 2], 'g', label="odometry", linestyle='--')
+        # angles.plot(range(len(simulated[:, 2])), simulated[:, 2], 'blue', label="simulated", linestyle='--')
 
         
         angles.legend(loc='best')
@@ -97,7 +100,7 @@ class Plotter:
         if(ground_truth == "square"): # Square
             # position.plot([0.5, 0.5, 2.5, 2.5, 0.5], [-2.5, 2.5, 2.5, -2.5, -2.5], 'black', label="ground truth", linestyle=':')
             position.set_xlim([-0.5, 3.5])
-            position.set_ylim([-3.5, 3.5])
+            position.set_ylim([-3.5, 4.0])
         elif(ground_truth == "line"): # Line
             # position.plot([0.5, 0.5], [-2.5, 2.5], 'black', label="ground truth", linestyle=':')
             position.set_xlim([-0.5, 1.5])

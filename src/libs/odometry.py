@@ -23,8 +23,7 @@ class Odometry:
         path_simulation = [vision[0].tolist()]
         for a in range(len(motors)-1):
             packet_diff = pckt_cnt[a+1]-pckt_cnt[a]
-            if self.mod != None:
-                packet_diff = packet_diff % self.mod
+            packet_diff = packet_diff % self.mod
             path_simulation.append(self.new_position(motors[a], motors[a+1], path_simulation[a], packet_diff))
         path_simulation = np.squeeze(path_simulation)
         return path_simulation
@@ -65,18 +64,18 @@ class Odometry:
         # Speed Average
         prev_speed = np.matrix(prev_speed)
         next_speed = np.matrix(next_speed)
-        speed = prev_speed
+        speed = (next_speed+prev_speed)/2
         return  self.convert_to_vector(speed)*(self.tsample/1000)
 
     def new_position(self, prev_speed: list, next_speed: list, pos: list, steps: int):
         movement = steps*self.step_movement(prev_speed, next_speed)
-        movRotated = self.rotate_to_global(movement, pos[2])
+        movRotated = self.rotate_to_global(movement, pos[2]+(movRotated.T[2]/2))
         return  (np.matrix(pos) + movRotated.T).tolist()[0]
     
-    def new_position_angle(self, prev_speed: list, next_speed: list, pos: list, angle: float, steps: int):
+    def new_position_angle(self, prev_speed: list, next_speed: list, pos: list, angle_diff: float, steps: int):
         movement = steps*self.step_movement(prev_speed, next_speed)
-        movRotated = self.rotate_to_global(movement, pos[2])
-        movRotated[2] = angle
+        movRotated = self.rotate_to_global(movement, pos[2]+(angle_diff/2))
+        movRotated[2] = angle_diff
         return  (np.matrix(pos) + movRotated.T).tolist()[0]
     
     def get_parameters(self):
