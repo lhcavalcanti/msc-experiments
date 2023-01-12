@@ -2,17 +2,17 @@
     "quadrado_15_orig.csv": {
         "odometry_error": 0.18456281328200955
     },
-    "quadrado_15_opt.csv": {
-        "odometry_error": 0.15436082586065092
+    "quadrado_10_accel_opt.csv": {
+        "odometry_error": 0.19381531884828063
     },
-    "quadrado_20_opt.csv": {
+    "quadrado_20_accel_opt.csv": {
         "odometry_error": 0.10602944826594937
+    },
+    "quadrado_15_accel_opt.csv": {
+        "odometry_error": 0.15436082586065092
     },
     "quadrado_10_orig.csv": {
         "odometry_error": 0.19772806392265158
-    },
-    "quadrado_10_opt.csv": {
-        "odometry_error": 0.19381531884828063
     },
     "quadrado_20_orig.csv": {
         "odometry_error": 0.19506969890170292

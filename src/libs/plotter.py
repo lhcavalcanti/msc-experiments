@@ -36,7 +36,7 @@ class Plotter:
             # print('Optimized Path RMSE: {0}'.format(optimized_error))
         return (odometry_error, simulated_error, optimized_error)
 
-    def plot_vision_odometry(self, ground_truth="line", limits = (11, 16.5)):
+    def plot_vision_odometry(self, ground_truth="line", limits = (11, 16.5), plotSim=False):
         # print("Simulated Path: ", simulated.shape)
         # print("Optimized Path: ", optimized.shape)
         simulated = self.odm.simulate_path_angle(self.angle_type)
@@ -45,10 +45,11 @@ class Plotter:
         figure, (position, angles, errors) = plt.subplots(3)
         position.plot(self.file.get_vision()[:, 0], self.file.get_vision()[:, 1], 'r', label="vision")
         position.plot(self.file.get_odometry()[:, 0], self.file.get_odometry()[:, 1], 'g', linestyle='--', label="odometry: RMSE={:.4f}".format(odometry_error))
-        # position.plot(simulated[:, 0], simulated[:, 1], 'blue', linestyle='--', label="simulated: RMSE={:.4f}".format(simulated_error))
+        if plotSim:
+            position.plot(simulated[:, 0], simulated[:, 1], 'blue', linestyle='--', label="simulated: RMSE={:.4f}".format(simulated_error))
 
         position.legend(loc='best')	
-        position.set(xlabel='x (m)', ylabel='y (m)', title='Vision, Odometry, Simulated and Optmized positions')
+        position.set(xlabel='x (m)', ylabel='y (m)', title='Vision, Odometry' + (', and Simulated' if plotSim else '') + ' positions')
         
         if(ground_truth == "square"): # Square
             # position.plot([0.5, 0.5, 2.5, 2.5, 0.5], [-2.5, 2.5, 2.5, -2.5, -2.5], 'black', label="ground truth", linestyle=':')
@@ -62,15 +63,17 @@ class Plotter:
 
         angles.plot(range(len(self.file.get_vision()[:, 2])), self.file.get_vision()[:, 2], 'r', label="vision")
         angles.plot(range(len(self.file.get_odometry()[:, 2])), self.file.get_odometry()[:, 2], 'g', label="odometry", linestyle='--')
-        # angles.plot(range(len(simulated[:, 2])), simulated[:, 2], 'blue', label="simulated", linestyle='--')
+        if plotSim:
+            angles.plot(range(len(simulated[:, 2])), simulated[:, 2], 'blue', label="simulated", linestyle='--')
 
         
         angles.legend(loc='best')
-        angles.set(xlabel='time steps', ylabel='w (rads)', title='Vision, Odometry and Simulated angles by time step')
+        angles.set(xlabel='time steps', ylabel='w (rads)', title='Vision, Odometry' + (', and Simulated' if plotSim else '') + ' angles by time step')
         
         errors.bar('odometry to vision', odometry_error, color='g')
-        errors.bar('combined paths to vision', self.simulated_cost, color='yellow')
-        errors.set(xlabel='comparison', ylabel='errror (RMSE)', title='Odometry, Simulated and Optimized RMSE to Vision')
+        if plotSim:
+            errors.bar('simulated to vision', simulated_error, color='yellow')
+        errors.set(xlabel='comparisons', ylabel='errror (RMSE)', title='Odometry' + (', and Simulated' if plotSim else '') + ' RMSE to Vision')
 
         figure.set_size_inches(limits, forward=False)
         # print("Analysis from file: {0}".format(self.file.get_path()))
@@ -94,7 +97,7 @@ class Plotter:
         position.plot(optimized[:, 0], optimized[:, 1], 'orange', label="optimized: RMSE={:.4f}".format(optimized_error))
         
         position.legend(loc='best')	
-        position.set(xlabel='x (m)', ylabel='y (m)', title='Vision, Odometry, Simulated and Optmized positions')
+        position.set(xlabel='x (m)', ylabel='y (m)', title='Vision, Odometry, Simulated, and Optmized positions')
         
         
         if(ground_truth == "square"): # Square
@@ -113,13 +116,13 @@ class Plotter:
         angles.plot(range(len(optimized[:, 2])), optimized[:, 2], 'orange', label="optimized")
         
         angles.legend(loc='best')
-        angles.set(xlabel='time steps', ylabel='w (rads)', title='Vision, Odometry and Simulated angles by time step')
+        angles.set(xlabel='time steps', ylabel='w (rads)', title='Vision, Odometry, and Simulated angles by time step')
         
         errors.bar('odometry to vision', odometry_error, color='g')
         errors.bar('simulated to vision', simulated_error, color='blue')
         errors.bar('optimized to vision', optimized_error, color='orange')
         errors.bar('combined paths to vision', self.simulated_cost, color='yellow')
-        errors.set(xlabel='comparison', ylabel='errror (RMSE)', title='Odometry, Simulated and Optimized RMSE to Vision')
+        errors.set(xlabel='comparison', ylabel='errror (RMSE)', title='Odometry, Simulated, Optimized, and Combined paths RMSE to Vision')
 
         figure.set_size_inches(limits, forward=False)
         # print("Analysis from file: {0}".format(self.file.get_path()))

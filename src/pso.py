@@ -1,5 +1,5 @@
 # import modules
-import os
+import glob
 import json
 import pprint
 from timeit import repeat
@@ -15,23 +15,35 @@ from libs.odometry import Odometry
 from libs.plotter import Plotter
 
 
-orgIJ1 = [[0.34641, 0.282843, -0.282843, -0.34641], [0.414214, -0.414216, -0.414214, 0.414214], [3.616966, 2.556874, 2.556874, 3.616966]]
-orgWheelRadius = 0.02475
+# orgIJ1 = [[0.34641, 0.282843, -0.282843, -0.34641], [0.414214, -0.414216, -0.414214, 0.414214], [3.616966, 2.556874, 2.556874, 3.616966]]
+# orgWheelRadius = 0.02475
+
+# Robot 0 first optimization:
+orgIJ1 = [[0.383146590857885, 0.2601908088939393, -0.29432191782356004, -0.2947331116512286], [0.2942690569083855, -0.5298154893258492, -0.4135609185578648, 0.3062489555481053], [3.590359801850708, 2.5770948138832246, 2.572861189728561, 3.6344615627386694]]
+orgWheelRadius = 0.023262252867368625
+
 packet_mod = 255
 t_sample = 6.11
 
-path = 'data/Calibration/22-11-16'
-files = [Read(os.path.join(path, i)) for i in os.listdir(path)]
+# Robot 0 first logs: path = 'data/Calibration/22-11-16'
+# Robot 0 first Optimization: 22-11-16 
+# Robot 0 first Validation: 22-12-15
+
+# Robot 0 and 5 validation with original and first optimization: 23-01-09
+# Robot 5 fisrt optimization: 23-01-09
+# Robot 0 second round of optimization: 23-01-09
+
+path = 'data/Calibration/23-01-09/robot0/optimized'
+files = [Read(i) for i in glob.glob(path+'/*.csv')]
 
 # 'data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv'
 # 'data/Calibration/22-08-24/logs-2022-08-23 (1).csv'
-
 # 'data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv' # 8 raw logs with vision navigation
 
 # PSO PARAMETERS
 angle_type = "odometry"
-num_iterations = 5000
-limit = 0.12
+num_iterations = 10000
+limit = 0.13
 
 def multiples_paths_error(x):
     avg_error = 0

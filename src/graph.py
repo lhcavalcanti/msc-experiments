@@ -1,8 +1,10 @@
 # import modules
-import os
 import json
 import multiprocessing as mp
 import numpy as np
+import glob
+
+
 
 
 # import local libs
@@ -15,11 +17,15 @@ from libs.plotter import Plotter
 orgIJ1 = [[0.34641, 0.282843, -0.282843, -0.34641], [0.414214, -0.414216, -0.414214, 0.414214], [3.616966, 2.556874, 2.556874, 3.616966]]
 orgWheelRadius = 0.02475
 
+# Robot 0 first optimization:
+# orgIJ1 = [[0.383146590857885, 0.2601908088939393, -0.29432191782356004, -0.2947331116512286], [0.2942690569083855, -0.5298154893258492, -0.4135609185578648, 0.3062489555481053], [3.590359801850708, 2.5770948138832246, 2.572861189728561, 3.6344615627386694]]
+# orgWheelRadius = 0.023262252867368625
+
 packet_mod = 255
 t_sample = 6.11
 
-path = 'data/Calibration/22-12-15'
-files = [Read(os.path.join(path, i)) for i in os.listdir(path)]
+path = 'data/Calibration/23-01-11/robot5'
+files = [Read(i) for i in glob.glob(path+'/*.csv')]
 
 # 'data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv' # 8 raw logs with vision navigation
 # 'data/Calibration/22-09-12/logs-2022-09-12 ('+str(i)+').csv' # 8 raw logs with optimized vision navigation
@@ -48,7 +54,7 @@ if __name__ == '__main__':
     print("Generating graphs and result.")
     plotters = [Plotter(file, orgIJ1, orgWheelRadius, None, 0, packet_mod, t_sample, limits=None) for file in files]
     for plotter in plotters:
-        plotter.plot_vision_odometry(ground_truth="square")
+        plotter.plot_vision_odometry(ground_truth="square", plotSim=False)
         (original_error, simulated_error, optimized_error) = plotter.calculate_error()
         result[plotter.get_file_name()] = dict()
         result[plotter.get_file_name()]["odometry_error"] = original_error

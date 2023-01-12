@@ -1,0 +1,14 @@
+{
+    "quadrado_opt_2_1.csv": {
+        "odometry_error": 0.20687231430696326
+    },
+    "quadrado_opt_1_2.csv": {
+        "odometry_error": 0.19081689428412005
+    },
+    "quadrado_opt_1_1.csv": {
+        "odometry_error": 0.17648697421375995
+    },
+    "quadrado_opt_2_2.csv": {
+        "odometry_error": 0.16051254703582854
+    }
+}
