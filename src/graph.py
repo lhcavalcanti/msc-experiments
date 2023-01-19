@@ -24,7 +24,7 @@ orgWheelRadius = 0.02475
 packet_mod = 255
 t_sample = 6.11
 
-path = 'data/Calibration/23-01-11/robot5'
+path = 'data/Calibration/23-01-11/robot5_opt0'
 files = [Read(i) for i in glob.glob(path+'/*.csv')]
 
 # 'data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv' # 8 raw logs with vision navigation
