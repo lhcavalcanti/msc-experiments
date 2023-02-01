@@ -39,8 +39,9 @@ class Plotter:
     def plot_vision_odometry(self, ground_truth="line", limits = (11, 16.5), plotSim=False):
         # print("Simulated Path: ", simulated.shape)
         # print("Optimized Path: ", optimized.shape)
-        simulated = self.odm.simulate_path_angle(self.angle_type)
-        (odometry_error, simulated_error, optimized_error) = self.calculate_error(simulated=simulated)
+        if plotSim:
+            simulated = self.odm.simulate_path_angle(self.angle_type)
+        (odometry_error, simulated_error, optimized_error) = self.calculate_error(simulated= (simulated if plotSim else None))
         
         figure, (position, angles, errors) = plt.subplots(3)
         position.plot(self.file.get_vision()[:, 0], self.file.get_vision()[:, 1], 'r', label="vision")

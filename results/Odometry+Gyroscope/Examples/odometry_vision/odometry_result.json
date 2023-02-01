@@ -1,0 +1,14 @@
+{
+    "square-pos-debug-2021-07-28.16:43:38.csv": {
+        "odometry_error": 1.235916132622099,
+        "distance": 2.563614
+    },
+    "square-kp-debug-2021-07-28.16:50:56.csv": {
+        "odometry_error": 1.2204738102615196,
+        "distance": 2.590093
+    },
+    "square-gyro-2021-09-10.csv": {
+        "odometry_error": 0.20714429754076027,
+        "distance": 0.093145
+    }
+}

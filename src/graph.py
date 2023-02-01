@@ -24,7 +24,7 @@ orgWheelRadius = 0.02475
 packet_mod = 255
 t_sample = 6.11
 
-path = 'data/Calibration/23-01-11/robot5_opt0'
+path = 'data/Calibration/22-11-16-first-opt/optimization'
 files = [Read(i) for i in glob.glob(path+'/*.csv')]
 
 # 'data/Calibration/22-09-09/logs-2022-09-08-nrf ('+str(i)+').csv' # 8 raw logs with vision navigation
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     print("Generating graphs and result.")
     plotters = [Plotter(file, orgIJ1, orgWheelRadius, None, 0, packet_mod, t_sample, limits=None) for file in files]
     for plotter in plotters:
-        plotter.plot_vision_odometry(ground_truth="square", plotSim=False)
+        plotter.plot_vision_odometry(ground_truth="square", plotSim=True)
         (original_error, simulated_error, optimized_error) = plotter.calculate_error()
         result[plotter.get_file_name()] = dict()
         result[plotter.get_file_name()]["odometry_error"] = original_error
