@@ -25,15 +25,20 @@ orgWheelRadius = 0.023262252867368625
 packet_mod = 255
 t_sample = 6.11
 
+
 # Robot 0 first logs: path = 'data/Calibration/22-11-16'
 # Robot 0 first Optimization: 22-11-16 
 # Robot 0 first Validation: 22-12-15
 
-# Robot 0 and 5 validation with original and first optimization: 23-01-09
+# Robot 0 and 5 validation with original and first 0 optimization: 23-01-09
 # Robot 5 fisrt optimization: 23-01-09
 # Robot 0 second round of optimization: 23-01-09
 
-path = 'data/Calibration/23-01-09/robot0/optimized'
+# Robot 0 second validation: 23-01-11
+# Robot 5 first validation: 23-01-11
+# Robot 5 validation with 0 second optimization: 23-01-11
+
+path = 'data/Calibration/22-11-16-find_params'
 files = [Read(i) for i in glob.glob(path+'/*.csv')]
 
 # 'data/Calibration/22-08-10/log_odm_test_L ('+str(i)+').csv'
@@ -42,8 +47,8 @@ files = [Read(i) for i in glob.glob(path+'/*.csv')]
 
 # PSO PARAMETERS
 angle_type = "odometry"
-num_iterations = 10000
-limit = 0.13
+num_iterations = 100
+limit = 0.1301
 
 def multiples_paths_error(x):
     avg_error = 0
@@ -78,7 +83,7 @@ if __name__ == '__main__':
     pp.pprint(p)
 
     options = {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
-    optimizer = GlobalBestPSO(n_particles=20, dimensions=13, options=options, bounds=bounds)
+    optimizer = GlobalBestPSO(n_particles=70, dimensions=13, options=options, bounds=bounds)
 
     # now run the optimization, pass a=1 and b=100 as a tuple assigned to args
     cost, param = optimizer.optimize(robot_path_error, num_iterations)

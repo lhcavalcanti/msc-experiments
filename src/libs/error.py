@@ -1,8 +1,15 @@
 # Import libraries
 import numpy as np
+import math
 
 
 class Error:
+    def angleDifference(self, a1, a2):
+        sign = 1 if a1 > a2 else -1;
+        angle = a1 - a2;
+        K = -sign * math.pi * 2;
+        return K + angle if (abs(K + angle) < abs(angle)) else angle
+        
 
     def pointDistance(self, truth, predict):
         diff = np.subtract(truth, predict) # Points difference x2 - x1, y2 - y1
