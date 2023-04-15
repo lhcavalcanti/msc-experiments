@@ -3,12 +3,15 @@ import csv
 import numpy as np
 
 class Read:
-    def __init__(self, path, compare = False):
+    def __init__(self, path, compare = False, dataset = False):
         self.path = path
         self.odometry = []
         self.vision = []
         self.motors = []
         self.pckt_count = []
+        if(dataset):
+            self.dataset(path)
+            return
         self.compare = []
         with open(path) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
@@ -29,6 +32,21 @@ class Read:
                         self.motors.append([float(row[4]), float(row[5]), float(row[6]), float(row[7])])
                     line_count += 1
             # print('Processed {0} lines.'.format(line_count))
+
+    def dataset(self, path):
+        with open(path) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            line_count = 0
+            for row in csv_reader:
+                if line_count == 0:
+                    print("Column names are ", ", ".join(row))
+                    line_count += 1
+                else:
+                    self.odometry.append([float(row[0]), float(row[1]), float(row[2])])
+                    self.vision.append([float(row[3]), float(row[4]), float(row[5])])
+                    self.pckt_count.append(int(row[6]))
+                    line_count += 1
+            print('Processed {0} lines.'.format(line_count))
 
     def get_odometry(self):
         return np.array(self.odometry)

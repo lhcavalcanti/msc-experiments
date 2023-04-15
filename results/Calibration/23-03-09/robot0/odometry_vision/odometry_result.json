@@ -1,0 +1,32 @@
+{
+    "quadrado_opt_2_1.csv": {
+        "odometry_error": 0.09981553053273491
+    },
+    "quadrado_opt_1_3.csv": {
+        "odometry_error": 0.13331750314416943
+    },
+    "quadrado_opt_2_5.csv": {
+        "odometry_error": 0.11266474352514984
+    },
+    "quadrado_opt_1_2.csv": {
+        "odometry_error": 0.1220729909197268
+    },
+    "quadrado_opt_1_1.csv": {
+        "odometry_error": 0.11627122566521723
+    },
+    "quadrado_opt_1_4.csv": {
+        "odometry_error": 0.10216932828191264
+    },
+    "quadrado_opt_2_3.csv": {
+        "odometry_error": 0.11735374737843896
+    },
+    "quadrado_opt_1_5.csv": {
+        "odometry_error": 0.14504559416434698
+    },
+    "quadrado_opt_2_2.csv": {
+        "odometry_error": 0.13886740565368852
+    },
+    "quadrado_opt_2_4.csv": {
+        "odometry_error": 0.1103392946593113
+    }
+}
