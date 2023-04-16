@@ -9,6 +9,6 @@ file = Read(path)
 
 if __name__ == '__main__':    
     plotter = Plotter(file, True)
-    plotter.plot_vision_odometry()
-    plotter.plot_vision_mcl()
-    plotter.plot_vision_odometry_mcl()
+    plotter.plot_vision_odometry(limits =  (5.5, 4.5))
+    plotter.plot_vision_mcl(limits =  (5.5, 4.5))
+    plotter.plot_vision_odometry_mcl(limits =  (5.5, 4.5))
